@@ -37,6 +37,10 @@ public class Transactions {
         this.account = account;
     }
 
+    public Transactions() {
+
+    }
+
     public Long getId() {
         return id;
     }

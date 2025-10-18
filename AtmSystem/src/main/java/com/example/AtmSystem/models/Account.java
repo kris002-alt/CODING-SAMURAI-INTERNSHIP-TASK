@@ -1,8 +1,6 @@
 package com.example.AtmSystem.models;
 
 import jakarta.persistence.*;
-import jakarta.transaction.Transaction;
-import org.apache.catalina.User;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,6 +27,8 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transactions> transactions = new ArrayList<>();
+
+
 
     public Long getId() {
         return id;
@@ -78,7 +78,7 @@ public class Account {
         this.transactions = transactions;
     }
 
-    public Account(Long id, String accountNumber, BigDecimal balance, AccountType accountType, Users user, List<Transactions> transactions) {
+    public Account() {
         this.id = id;
         this.accountNumber = accountNumber;
         this.balance = balance;
