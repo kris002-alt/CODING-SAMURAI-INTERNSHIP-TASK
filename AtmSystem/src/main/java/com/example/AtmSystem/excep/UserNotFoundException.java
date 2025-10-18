@@ -6,5 +6,6 @@ public class UserNotFoundException extends RuntimeException {
     }
 
     public Object getErrorCode() {
+        return "userNotFound";
     }
 }
