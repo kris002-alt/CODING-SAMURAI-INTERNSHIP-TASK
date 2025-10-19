@@ -17,6 +17,7 @@ public class BalanceResponse {
         this.timestamp = timestamp;
     }
 
+
     public String getAccountNumber() { return accountNumber; }
     public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
 

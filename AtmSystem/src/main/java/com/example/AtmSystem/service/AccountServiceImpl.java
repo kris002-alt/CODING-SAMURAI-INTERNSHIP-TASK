@@ -1,6 +1,8 @@
 package com.example.AtmSystem.service;
 
 
+import com.example.AtmSystem.dto.AccountResponse;
+import com.example.AtmSystem.dto.BalanceResponse;
 import com.example.AtmSystem.excep.UserNotFoundException;
 import com.example.AtmSystem.models.Account;
 import com.example.AtmSystem.models.AccountType;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -50,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getAccountByNumber(String accountNumber) {
-        return null;
+        return accountRepository.findByAccountNumber(accountNumber).get();
     }
 
     @Override
