@@ -1,43 +1,31 @@
-package com.example.AtmSystem.models;
+package com.example.AtmSystem.dto;
+import com.example.AtmSystem.models.AccountType;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "accounts")
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AccountResponse {
     private Long id;
-
-    @Column(unique = true, nullable = false)
     private String accountNumber;
-
-    private BigDecimal balance = BigDecimal.ZERO;
-
-    @Enumerated(EnumType.STRING)
+    private BigDecimal balance;
     private AccountType accountType;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference
-    private Users user;
-
+    private Long userId;
+    private String userName;
     private LocalDateTime createdAt;
 
     // Constructors
-    public Account() {
-        this.createdAt = LocalDateTime.now();
-    }
+    public AccountResponse() {}
 
-    public Account(String accountNumber, BigDecimal balance, AccountType accountType, Users user) {
-        this();
+    public AccountResponse(Long id, String accountNumber, BigDecimal balance,
+                           AccountType accountType, Long userId, String userName,
+                           LocalDateTime createdAt) {
+        this.id = id;
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.accountType = accountType;
-        this.user = user;
+        this.userId = userId;
+        this.userName = userName;
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters
@@ -53,8 +41,11 @@ public class Account {
     public AccountType getAccountType() { return accountType; }
     public void setAccountType(AccountType accountType) { this.accountType = accountType; }
 
-    public Users getUser() { return user; }
-    public void setUser(Users user) { this.user = user; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+
+    public String getUserName() { return userName; }
+    public void setUserName(String userName) { this.userName = userName; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

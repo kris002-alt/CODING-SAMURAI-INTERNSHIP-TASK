@@ -15,4 +15,6 @@ public interface UserService {
     Users createUser(UserDTO userDTO);
     Users authenticateUser(String username, String pin);
     void changePin(Long userId, String newPin);
+
+    Users getUserById(Long userId);
 }

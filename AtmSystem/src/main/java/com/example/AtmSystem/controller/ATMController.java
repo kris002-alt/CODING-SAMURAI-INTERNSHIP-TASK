@@ -29,7 +29,7 @@ public class ATMController {
     @GetMapping("/balance/{accountNumber}")
     public ResponseEntity<BalanceResponse> checkBalance(@PathVariable String accountNumber) {
         BigDecimal balance = accountService.checkBalance(accountNumber);
-
+        System.out.println("balance: " + balance);
         BalanceResponse response = new BalanceResponse();
         response.setAccountNumber(accountNumber);
         response.setBalance(balance);
