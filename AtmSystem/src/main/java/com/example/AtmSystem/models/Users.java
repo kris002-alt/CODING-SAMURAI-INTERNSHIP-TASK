@@ -28,11 +28,12 @@ public class Users {
     // Constructors
     public Users() {}
 
-    public Users(String username, String firstName, String lastName, String pin) {
+    public Users(Long id,String username, String firstName, String lastName, String pin) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.pin = pin;
+        this.id = id;
     }
 
     // Helper method to add account

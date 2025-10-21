@@ -1,13 +1,17 @@
 package com.example.AtmSystem.service;
 
 import com.example.AtmSystem.dto.AccountDTO;
+import com.example.AtmSystem.dto.AuthResponse;
 import com.example.AtmSystem.dto.UserDTO;
+import com.example.AtmSystem.excep.InvalidPinException;
 import com.example.AtmSystem.excep.UserAlreadyExistsException;
 import com.example.AtmSystem.excep.UserNotFoundException;
 import com.example.AtmSystem.models.Account;
 import com.example.AtmSystem.models.Users;
 import com.example.AtmSystem.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +70,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users authenticateUser(String username, String pin) {
-        return null;
+
+        Users user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(pin, user.getPin())){
+            throw new InvalidPinException("Invalid PIN");
+        }
+        System.out.println("Login successful for: " + username);
+        return user;
     }
 
     @Override

@@ -98,3 +98,64 @@ System.out.println(result);
 
 
 */
+
+
+import java.util.*;
+
+public class PracticeMain {
+    public static void main(String[] args) {
+        /*Queue<Integer> priorityQueue = new PriorityQueue<>(Comparator.reverseOrder());
+        priorityQueue.offer(11);
+        priorityQueue.offer(2);
+        priorityQueue.offer(5);
+        priorityQueue.offer(3);
+        System.out.println(priorityQueue);
+       priorityQueue.poll();
+        //System.out.println(priorityQueue.peek());
+        System.out.println(priorityQueue);
+        //priorityQueue.peek();
+        System.out.println(priorityQueue.peek());
+
+*/
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+        deque.offer(1);
+        deque.offer(2);
+        deque.offerFirst(10);
+        deque.offerLast(20);
+        deque.offer(30);
+        deque.offer(40);
+        System.out.println(deque);
+       // deque.pollFirst();
+        System.out.println(deque.pollFirst());
+        System.out.println(deque.pollLast());
+        System.out.println(deque);
+        System.out.println(deque.peek());
+        System.out.println(deque.peekFirst());
+        System.out.println(deque.peekLast());
+
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

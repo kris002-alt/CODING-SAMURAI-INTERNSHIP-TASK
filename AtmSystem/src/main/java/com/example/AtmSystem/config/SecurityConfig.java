@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -20,13 +20,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for API endpoints
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/**").permitAll() // Allow public access to auth endpoints
-                        .requestMatchers("/api/atm/**").permitAll() // Require authentication for ATM operations
-                        .anyRequest().permitAll()
-                );
-               // .httpBasic(httpBasic -> {}); // Enable Basic Auth for simplicity
+                        .requestMatchers("/api/auth/**").permitAll() // Allow authentication endpoints
+                        .requestMatchers("/api/atm/**").authenticated() // Require login for ATM endpoints
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(httpBasic -> {}); // Enable Basic Authentication
 
         return http.build();
     }
