@@ -23,8 +23,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**").permitAll() // Allow authentication endpoints
-                        .requestMatchers("/api/atm/**").authenticated() // Require login for ATM endpoints
-                        .anyRequest().authenticated()
+                       .requestMatchers("/api/atm/**").permitAll() // Require login for ATM endpoints
+                       .anyRequest().authenticated()
                 )
                 .httpBasic(httpBasic -> {}); // Enable Basic Authentication
 

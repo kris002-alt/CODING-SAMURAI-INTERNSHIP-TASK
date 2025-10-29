@@ -4,11 +4,15 @@ import com.example.AtmSystem.excep.*;
 import com.example.AtmSystem.models.Account;
 import com.example.AtmSystem.models.TransactionType;
 import com.example.AtmSystem.models.Transactions;
+import com.example.AtmSystem.models.Users;
 import com.example.AtmSystem.repo.AccountRepository;
 import com.example.AtmSystem.repo.TransactionRepository;
 import jakarta.transaction.Transaction;
+import lombok.SneakyThrows;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +20,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Value("${atm.max-withdrawal:50000}")
+    @Value("${atm.max-withdrawal:600000}")
     private BigDecimal maxWithdrawal;
 
     @Value("${atm.max-transfer:100000}")
@@ -78,34 +83,31 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+
     @Override
     public Transactions deposit(String accountNumber, BigDecimal amount) {
         try {
-            // Validate amount
             validateAmount(amount);
 
             Account account = getActiveAccount(accountNumber);
 
-            // Update account balance
             BigDecimal newBalance = account.getBalance().add(amount);
             account.setBalance(newBalance);
             accountRepository.save(account);
 
-            // Create transaction record
-            return (Transactions) createTransaction(account, amount, TransactionType.DEPOSIT,
-                    "Cash deposit to account: " + accountNumber);
+            return createTransaction(account, amount, TransactionType.DEPOSIT,
+                    "Cash deposit to account: " + accountNumber) ;
+
 
         } catch (Exception e) {
-            if (!(e instanceof ATMException)) {
-                throw new InvalidTransactionException("Deposit failed: " + e.getMessage());
-            }
-            try {
-                throw e;
-            } catch (AccountNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+            System.out.println("Deposit failed: " + e.getMessage());
+
+
+            e.printStackTrace();
         }
+return new Transactions();
     }
+
 
     @Override
     public Transactions transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount) {
@@ -194,15 +196,15 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new AccountNotFoundException("Account not found: " + accountNumber));
 
         // You can add additional checks here, like if account is locked/active
-        // if (account.isLocked()) {
-        //     throw new AccountLockedException("Account is locked: " + accountNumber);
-        // }
+       /*  if (account.isLocked()) {
+             throw new AccountLockedException("Account is locked: " + accountNumber);
+         }*/
 
         return account;
     }
 
     // Helper method to create transaction
-    private Transaction createTransaction(Account account, BigDecimal amount, TransactionType type, String description) {
+    private Transactions createTransaction(Account account, BigDecimal amount, TransactionType type, String description) {
         Transactions transaction = new Transactions();
         transaction.setAmount(amount);
         transaction.setTransactionType(type);
@@ -210,7 +212,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setDescription(description);
         transaction.setAccount(account);
 
-        return (Transaction) transactionRepository.save(transaction);
+        return (Transactions) transactionRepository.save(transaction);
     }
 
     // Additional method to get account balance

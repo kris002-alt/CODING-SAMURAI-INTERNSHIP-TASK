@@ -1,6 +1,4 @@
 package com.example.AtmSystem.controller;
-
-import com.example.AtmSystem.dto.AccountResponse;
 import com.example.AtmSystem.dto.BalanceResponse;
 import com.example.AtmSystem.dto.TransactionRequest;
 import com.example.AtmSystem.dto.TransactionResponse;
@@ -50,7 +48,7 @@ public class ATMController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/deposit")
+    @PostMapping("deposit")
     public ResponseEntity<TransactionResponse> deposit(
             @RequestBody @Valid TransactionRequest request) {
 
